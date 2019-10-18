@@ -21,7 +21,6 @@ class UsersController extends Controller
     }
 
     function crearUser(Request $request){
-
         if($request->isJson()){
             //todo: create user
             $data = $request->json()->all();
@@ -38,23 +37,28 @@ class UsersController extends Controller
         return response()->json(['error' => 'Unauthorized'], 401, []);
     }
 
-    function getToken($request){
-        if($request->isJson){
+    function getToken(Request $request){
+
+        if($request->isJson()){
             try{
-            $data = $request->json()->all();
+                $data = $request->json()->all();
 
-            $user = User::where('username', $data['username'])->first();
+                //var_dump($data);
 
-            if($user && Hash::check($data['password'], $user->password)){
-                return response()->json($user, 200);
-            }else{
-                return response()->json(['error'=>'No content'],406);
-            }
+                $user = User::where('username', $data['username'])->first();
+
+                if($user && Hash::check($data['password'], $user->password)){
+                    return response()->json($user, 200);
+                }else{
+                    return response()->json(['error'=>'No content'],406);
+                }
 
             }catch (ModelNotFoundException $e){
-                return response()->json(['error'=>'No content'],406)
+                return response()->json(['error'=>'No content'],406);
             }
         }
+
+        return response()->json(['error' => 'Unauthorized'], 401, []);
     }
 
 }
