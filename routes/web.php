@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 | and give it the Closure to call when that URI is requested.
 |
 */
+$app->post('/users/login', ['uses' => 'UsersController@getToken']);
 
 $router->get('/', function () use ($router) {
     return $router->app->version();
@@ -20,3 +21,4 @@ $router->get('/key', function(){
 });
 
 $router->get('/users', ['uses' => 'UsersController@index']);
+$router->post('/users', ['uses' => 'UsersController@crearUser']);
